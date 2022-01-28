@@ -145,16 +145,6 @@ gulp.task('image', function () {
     // файла скрипта не нужно было самому обновлять
 });
 
-// Зупуск сборщика модулей. 
-// 1. Он сам себя отслеживает  см. настройки webpack.config.js.
-// Там есть watch.
-// 2. Он сам сжимает файлы проставляет автопрефиксы.
-// gulp.task('webpack', function () {
-//     return gulp.src('./src/js/script.js')
-//         .pipe(webpack(require('./webpack.config.js')))
-//         .pipe(gulp.dest('dist/'))
-//         .pipe(browserSync.stream());
-// });
 
 // 2 Вариант запуска сборщика модулей webpack. Настройки 
 // из файла webpack.config.js. Отличие от первого в том, 
