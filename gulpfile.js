@@ -14,7 +14,6 @@ const webpack = require('webpack-stream');
 const path = require('path');
 // плагин webpack, минимизирующий js
 const CompressionPlugin = require("compression-webpack-plugin");
-const dist = "./dist/";
 
 
 
@@ -69,7 +68,7 @@ gulp.task('styles', function () {
 
 gulp.task("copy-assets", () => {
     return gulp.src("./src/assets/**/*.*")
-                .pipe(gulp.dest(dist + "/assets"))
+                .pipe(gulp.dest("./dist//assets"))
                 .on("end", browserSync.reload);
 });
 

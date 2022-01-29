@@ -840,6 +840,14 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.popup__active {
+  display: block;
+}
+
+.popup__hide {
+  display: none;
+}
+
 .myimage {
   position: fixed;
   top: 0;
