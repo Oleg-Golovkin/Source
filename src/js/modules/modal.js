@@ -1,15 +1,15 @@
 const modal = () => {
-    // 1. Функции
+    //-------------------1. Функции---------------------------------------//
     // 1.1. Скрытие, показ модального окна 
     function actionModal({
-        selectorButton,
         /* кнопка, открываюая мод. окно */
-        selectorModal,
+        selectorButton,
         /* само модальное окно */
-        selectorClose,
+        selectorModal,
         /* кнопка, закрывающая модальное окно */
-        selectorActive,
+        selectorClose,
         /* класс, присваивающий display: block; */
+        selectorActive,        
     }) {
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal);
@@ -24,6 +24,7 @@ const modal = () => {
 
         function showModal() {
             modal.classList.add(selectorActive);
+            // Окно прокручивается
             document.body.style.overflow = "";
           
         }
@@ -67,8 +68,8 @@ const modal = () => {
             document.querySelector(selectorModal).classList.add(selectorActive);
         }, time);
     }
-
-    // 2. Вызовы функций
+//-------------------2. Вызовы функций---------------------------------------//
+    // 
     // 2.1. Вызов открытия конкретного окна через время
     timerShowModal({
         selectorModal: ".popup_engineer", 
