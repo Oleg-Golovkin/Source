@@ -840,11 +840,11 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.show {
+.popup__active {
   display: block;
 }
 
-.hide {
+.popup__hide {
   display: none;
 }
 
