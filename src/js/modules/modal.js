@@ -9,40 +9,40 @@ const modal = () => {
         /* кнопка, закрывающая модальное окно */
         selectorClose,
         /* класс, присваивающий display: block; */
-        selectorActive,        
+        selectorActive,
     }) {
         const button = document.querySelectorAll(selectorButton),
-            modal = document.querySelector(selectorModal);
+            modal = document.querySelector(selectorModal),
         close = document.querySelectorAll(selectorClose);
 
         // Прописать класс показывающий и скрывающий модальное окно
         function closeModal() {
             modal.classList.remove(selectorActive);
             // Окно не прокручивается
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = "";
         }
 
         function showModal() {
             modal.classList.add(selectorActive);
             // Окно прокручивается
             document.body.style.overflow = "";
-          
+            document.body.style.overflow = "hidden";
         }
         // Событие на несколько кнопок
         button.forEach(button => {
             button.addEventListener("click", (e) => {
                 e.preventDefault();
                 if (e.target) {
-                    showModal()
+                    showModal();
                 }
-            })
-        })
+            });
+        });
 
         // Клик на крестики - окно исчезает
         close.forEach(close => {
             close.addEventListener("click", (e) => {
-                closeModal()
-            })
+                closeModal();
+            });
         });
 
         // Клик на подложку - окно исчезает
@@ -60,21 +60,26 @@ const modal = () => {
                 closeModal()
             }
         });
-    };
+    }
 
     //1.2.Через время открываются не все, а конкретное окно
-    function timerShowModal({selectorModal, time, selectorActive}) {
+    function timerShowModal({
+        selectorModal,
+        time,
+        selectorActive
+    }) {
         setTimeout(function () {
             document.querySelector(selectorModal).classList.add(selectorActive);
         }, time);
     }
-//-------------------2. Вызовы функций---------------------------------------//
+    //-------------------2. Вызовы функций---------------------------------------//
     // 
     // 2.1. Вызов открытия конкретного окна через время
     timerShowModal({
-        selectorModal: ".popup_engineer", 
-        time: 3000, 
-        selectorActive: 'popup__active'})
+        selectorModal: ".popup_engineer",
+        time: 3000,
+        selectorActive: 'popup__active'
+    });
 
     // 2.2. Вызов одного модального окна при нажатии на одну
     // из кнопок 
@@ -86,7 +91,7 @@ const modal = () => {
         selectorClose: '.popup_close',
         /* кнопка, закрывающая модальное окно */
         selectorActive: 'popup__active' /* класс (без точки), присваивающий display: block; */
-    })
+    });
 
     // 2.3. Вызов другого модального окна при нажатии на одну
     // из кнопок
@@ -95,7 +100,7 @@ const modal = () => {
         selectorModal: '.popup',
         selectorClose: '.popup_close',
         selectorActive: 'popup__active'
-    })
-}
+    });
+};
 
-export default modal
+export default modal;
