@@ -1,70 +1,76 @@
 const tabs = () => {
     function tabsDo({
-        btnParentSelector,
+        headerSliderSelector,
+        tabsSelector,        
         btnIMGSelector,
-        btnLinkSelector,
-        tabsSelector,
-        indexAttribute,
-        activeClass
+        linkSelektor,
+        contentSelector,
+        indexTabs
     }) {
-        const btnParent = document.querySelectorAll(btnParentSelector),
+        const header = document.querySelector(headerSliderSelector),
+            tabs = document.querySelectorAll(tabsSelector),
             btnIMG = document.querySelectorAll(btnIMGSelector),
-            btnLink = document.querySelectorAll(btnLinkSelector),
-            tabs = document.querySelectorAll(tabsSelector);
-        //  btn = document.querySelectorAll('.glazing_block');
+            link = document.querySelectorAll(linkSelektor),
+            content = document.querySelectorAll(contentSelector);
 
-        // console.log(btnLink);
+        function hideTab() {
+            content.forEach(content => {
+                content.classList.add('hide');
+                content.classList.remove('show');
 
-        function showTab(tabs) {
-            tabs.classList.add('show');
-            tabs.classList.remove('hide');
-
+            });                        
         }
 
-        function hideTab(tabs) {
-            tabs.classList.add('hide');
-            tabs.classList.remove('show');
-
+        function showTab(i = 0) {
+            content[i].classList.add('show');
+            content[i].classList.remove('hide');
+            link[3].parentNode.classList.add('after_click');
         }
+        hideTab();
+        showTab();
 
-
-        btnParent.forEach((btn, i) => {
-            btn.addEventListener('click', (e) => {
-                if (e.target && e.target == btnIMG[i]) {
-                    tabs.forEach((tab, num) => {
-                        hideTab(tab);
-                        if (num === +btn.getAttribute(indexAttribute)) {
-                            showTab(tab);
-                        }
-                    });
-                }
-                if (e.target && e.target == btnLink[i]) {
-                    tabs.forEach((tab, num) => {
-                        hideTab(tab);
-                        if (num === +btn.getAttribute(indexAttribute)) {
-                            showTab(tab);
-                        }
-                    });
-                    
-                }
-            });
+        header.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target && (target.matches(btnIMGSelector) ||
+                    target.matches(linkSelektor))) {
+                tabs.forEach((tab, i) => {
+                    if (target == btnIMG[i]) {
+                        hideTab();
+                        showTab((+tab.getAttribute(indexTabs)));
+                    }
+                    if (target == link[i]) {
+                        hideTab();
+                        showTab((+tab.getAttribute(indexTabs)));
+                        link.forEach(link => {
+                            link.parentNode.classList.remove('after_click');                
+                        });
+                        link[i].parentNode.classList.add('after_click');
+                    }
+                });
+            }
         });
     }
 
+
     tabsDo({
-        btnParentSelector: '.glazing_block',
+        headerSliderSelector: '.glazing_slider',
+        tabsSelector: '.glazing_block',
         btnIMGSelector: '.glazing_block img',
-        btnLinkSelector: '.slider-window__link',
-        tabsSelector: '.glazing_content',
-        indexAttribute: 'data-btn-slider'
+        linkSelektor: '.glazing_block a',
+        contentSelector: '.glazing_content',
+        indexTabs: 'data-tab-slider'
     });
 
     tabsDo({
-        btnParentSelector: '.decoration_item',
-        btnLinkSelector: '.decoration_item div a',
-        tabsSelector: '.tab__content',
-        indexAttribute: 'data-btn-tab'
+        headerSliderSelector: '.decoration_slider',
+        tabsSelector: '.decoration_item',       
+        linkSelektor: '.decoration_item a',
+        contentSelector: '.tab__content',
+        indexTabs: 'data-btn-tab'
     });
+
+
+
 
 
 };
