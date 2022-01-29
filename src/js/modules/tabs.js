@@ -17,7 +17,6 @@ const tabs = () => {
             content.forEach(content => {
                 content.classList.add('hide');
                 content.classList.remove('show');
-
             });                        
         }
 
@@ -76,6 +75,6 @@ const tabs = () => {
 };
 
 
-export {
+export default {
     tabs
 };
