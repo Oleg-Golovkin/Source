@@ -44,7 +44,7 @@ const tabs = () => {
                         link.forEach(link => {
                             link.parentNode.classList.remove('after_click');                
                         });
-                        link[i].parentNode.classList.add('after_click');
+                        link[i].parentNode.classList.add('after_click'); 
                     }
                 });
             }
