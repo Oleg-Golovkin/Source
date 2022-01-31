@@ -31,7 +31,7 @@ gulp.task('server', function () {
     gulp.watch('src/*.html').on('change', browserSync.reload);
     //следи за файлами html если изменились, то перезапускай 
     // обновление страницы
-    gulp.watch("./src/assets/**/*.*", gulp.parallel("copy-assets"));
+   
 });
 
 //2. Компиляция sass. Просто компилирует. Сам не запускается.
@@ -89,6 +89,7 @@ gulp.task('watch', function () {
     gulp.watch('src/fonts/**/*').on('all', gulp.parallel('icons'));
     // следи за папками js img icons, если поменялись, то выполняй
     // задачи ....
+    gulp.watch("./src/assets/**/*.*", gulp.parallel("copy-assets"));
 });
 //  Копирование из crs в папку dist в АНАЛОГИЧНЫЕ ПАПКИ всех файлов, 
 // которые
@@ -202,5 +203,5 @@ gulp.task('webpack', function () {
 });
 
 // 6. Задача по запуску всех задач одновременно (паралельно).
-gulp.task('default', gulp.parallel('watch', 'server', 'styles', 'html', 'fonts', 'icons', 'image', 'webpack', "copy-assets"));
+gulp.task('default', gulp.parallel('watch', /* 'server', */ 'styles', 'html', 'fonts', 'icons', 'image', 'webpack', "copy-assets"));
 // Первый параметр - по умолчанию
