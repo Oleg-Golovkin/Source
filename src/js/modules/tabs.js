@@ -4,25 +4,20 @@ const tabs = () => {
         // Родитель табов (кнопок, активирующих показ
         //     соответствующего контента)
         headerSliderSelector,
-        // Сам таб
-        tabsSelector,   
-        // Изображение, находящееся внутрие таба     
-        btnIMGSelector,
-        // Ссылка, находящееся внутри таба
-        linkSelektor,
-        // Блок контента, который показывается при нажатии
-        // на таб
+        // Сам таб (кнопка, ссылка, изображение)
+        tabsSelector, 
+        // Контент, показываемый при нажатии на соответ.
+        // таб 
         contentSelector,
+        // Класс активности, присваиваемый к табу при нажат.
+        // на него
+        activeСlass,
         
     }) {    // Родитель табов (кнопок, активирующих показ
             //     соответствующего контента)
         const header = document.querySelector(headerSliderSelector),
             // Сам таб
             tabs = document.querySelectorAll(tabsSelector),
-            // Изображение, находящееся внутрие таба   
-            btnIMG = document.querySelectorAll(btnIMGSelector),
-           // Ссылка, находящееся внутри таба 
-            link = document.querySelectorAll(linkSelektor),
             // Блок контента, который показывается при нажатии
             // на таб
             content = document.querySelectorAll(contentSelector);
@@ -34,8 +29,8 @@ const tabs = () => {
                 content.classList.remove('show');
             });    
             
-            link.forEach(link => {
-                link.parentNode.classList.remove('after_click');                
+            tabs.forEach(tab => {
+                tab.classList.remove(activeСlass);                
             });
         }
 
@@ -44,7 +39,7 @@ const tabs = () => {
         function showTab(i = 0) {
             content[i].classList.add('show');
             content[i].classList.remove('hide');
-            link[i].parentNode.classList.add('after_click');
+            tabs[i].classList.add(activeСlass);
         }
         hideTab();
         showTab();       
@@ -54,10 +49,26 @@ const tabs = () => {
             // linkSelektor селектор, link - переменная этого селектора
         header.addEventListener('click', (e) => {
             const target = e.target;
-            if (target && (target.matches(btnIMGSelector) ||
-                    target.matches(linkSelektor))) {
+            if (target && (target.matches(tabsSelector) ||
+                    target.parentNode.matches(tabsSelector))) {
                 tabs.forEach((tab, i) => {
-                    if (target == btnIMG[i] || target == link[i]) {
+                    if (target == tab || target.parentNode == tab) {
+                        hideTab();
+                        showTab(i);
+                    }                    
+                });
+            }
+        });
+
+        // // header - облочка кнопок (изображение и ссылки)
+        // e.target.matches(tabsSelector) делегирование дочерний элемент - изображение
+        // e.target.parentNode.matches(tabsSelector) делегирование на
+        //  дочерний дочернего элемента - ссылку
+        header.addEventListener('click', (e) => {
+            if (e.target && (e.target.matches(tabsSelector) ||
+                    e.target.parentNode.matches(tabsSelector))) {
+                tabs.forEach((tab, i) => {
+                    if (e.target == tab || e.target.parentNode == tab) {
                         hideTab();
                         showTab(i);
                     }                    
@@ -66,21 +77,30 @@ const tabs = () => {
         });
     }
 
-    // 2. Вызов функции таба на один из табов
+    // 2. Вызов функции таба
+    // ОСТЕКЛЕНИЕ БАЛКОНОВ И ЛОДЖИЙ 
     tabsDo({
         headerSliderSelector: '.glazing_slider',
-        tabsSelector: '.glazing_block',
-        btnIMGSelector: '.glazing_block img',
-        linkSelektor: '.glazing_block a',
+        tabsSelector: '.glazing_block',       
         contentSelector: '.glazing_content',
     });
-    // 2. Вызов функции таба на другой из табов
+    // 2. Вызов функции таба 
+    // ЗАКАЖИТЕ ОТДЕЛКУ БАЛКОНА СО СКИДКОЙ 60%!
     tabsDo({
         headerSliderSelector: '.decoration_slider',
-        tabsSelector: '.decoration_item',       
-        linkSelektor: '.decoration_item a',
+        tabsSelector: '.no_click',
         contentSelector: '.tab__content',
+        activeСlass: "after_click",
     });
+    // 2. Вызов функции таба 
+    // ЗАКАЖИТЕ ОТДЕЛКУ БАЛКОНА СО СКИДКОЙ 60%!
+    tabsDo({
+        headerSliderSelector: '.balcon_icons',
+        tabsSelector: '.balcon_icons_img',
+        contentSelector: '.big_img img',
+    });
+
+
 
 
 

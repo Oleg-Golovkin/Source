@@ -1,12 +1,15 @@
 const modal = () => {
+    // Верстка такова, что скрываем и показываем
+    // фон модального окна (его подложку)    
     //-------------------1. Функции---------------------------------------//
     // 1.1. Скрытие, показ модального окна 
     function actionModal({
         /* кнопка, открываюая мод. окно */
         selectorButton,
-        /* само модальное окно */
+        /* Модложка (фон) модального окна */        
         selectorModal,
-        /* кнопка, закрывающая модальное окно */
+        /* кнопка, скрывающая фон модального окна
+        вместе с модальным окном */
         selectorClose,
         /* класс, присваивающий display: block; */
         selectorShow,
@@ -31,10 +34,10 @@ const modal = () => {
         // Событие на несколько кнопок
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();
+                e.preventDefault();                
                 if (e.target) {
                     showModal();
-                }
+                }             
             });
         });
 
@@ -87,7 +90,7 @@ const modal = () => {
         selectorButton: ".popup_engineer_btn",
         /* кнопка, открываюая мод. окно */
         selectorModal: '.popup_engineer',
-        /* само модальное окно */
+      /* Модложка (фон) модального окна */  
         selectorClose: '.popup_close',
         /* кнопка, закрывающая модальное окно */
         selectorShow: 'show' /* класс (без точки), присваивающий display: block; */
@@ -101,6 +104,32 @@ const modal = () => {
         selectorClose: '.popup_close',
         selectorShow: 'show'
     });
+
+    // 2.4. Вызов другого модального окна
+    // рассчитать стоимость
+    actionModal({
+        selectorButton: ".glazing_price_btn",
+        selectorModal: '.popup_calc',
+        selectorClose: '.popup_calc_close',
+        selectorShow: 'show'
+    });
+
+    // 2.5. Вызов другого модального окна
+    // холодное или теплое остекление]
+    actionModal({
+        selectorButton: ".popup_calc_button",
+        selectorModal: '.popup_calc_profile ',
+        selectorClose: '.popup_calc_close',
+        selectorShow: 'show'
+    });
+
+    actionModal({
+        selectorButton: ".popup_calc_button",
+        selectorModal: '.popup_calc_profile ',
+        selectorClose: '.popup_calc_profile_close',
+        selectorShow: 'show'
+    });
+
 };
 
 export default modal;
