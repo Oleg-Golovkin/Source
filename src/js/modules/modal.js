@@ -6,17 +6,26 @@ const modal = () => {
     function actionModal({
         /* кнопка, открываюая мод. окно */
         selectorButton,
-        /* Модложка (фон) модального окна */        
+        /* Подложка (фон) конкретного модального окна */
         selectorModal,
+        /* Подложки (фон) всех модальных окон */
+        // Чтобы закрывать все окна на случай вызова модального
+        // окна через другое модальное окно, а не через верстку.
+        // В обратном случае два открытых окна будут мешаться
+        // друг другу.
+        selectorModals,
         /* кнопка, скрывающая фон модального окна
         вместе с модальным окном */
         selectorClose,
         /* класс, присваивающий display: block; */
         selectorShow,
+        dataModals = true,
     }) {
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal),
-        close = document.querySelectorAll(selectorClose);
+            modals = document.querySelectorAll(selectorModals),
+            close = document.querySelectorAll(selectorClose);
+
 
         // Прописать класс показывающий и скрывающий модальное окно
         function closeModal() {
@@ -26,25 +35,38 @@ const modal = () => {
         }
 
         function showModal() {
+            // Все окна закрываются
+            modals.forEach(modal => {
+                modal.classList.remove(selectorShow);
+            });
+            // Открывается только заданное модальное окно
             modal.classList.add(selectorShow);
             // Окно прокручивается
-            document.body.style.overflow = "";
             document.body.style.overflow = "hidden";
         }
-        // Событие на несколько кнопок
+        // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();                
+                e.preventDefault();
                 if (e.target) {
+                    // Все окна закрываются
+                    modals.forEach(modal => {
+                        modal.classList.remove(selectorShow);
+                    });
                     showModal();
-                }             
+                }
             });
         });
 
         // Клик на крестики - окно исчезает
         close.forEach(close => {
             close.addEventListener("click", (e) => {
+                // Все окна закрываются
+                modals.forEach(modal => {
+                    modal.classList.remove(selectorShow);
+                });
                 closeModal();
+                document.body.style.overflow = "";
             });
         });
 
@@ -52,8 +74,14 @@ const modal = () => {
         modal.addEventListener("click", (e) => {
             // Если кликаем только на подложку,
             // а не на само модальное окно
-            if (e.target == modal) {
+            if (e.target === modal && dataModals) {
+                console.log(dataModals);
+                // Все окна закрываются
+                modals.forEach(modal => {
+                    modal.classList.remove(selectorShow);
+                });
                 closeModal();
+                document.body.style.overflow = "";
             }
         });
 
@@ -61,6 +89,7 @@ const modal = () => {
         document.addEventListener('keydown', (e) => {
             if (e.code === "Escape" && modal.classList.contains(selectorShow)) {
                 closeModal();
+                document.body.style.overflow = "";
             }
         });
     }
@@ -84,20 +113,19 @@ const modal = () => {
     //     selectorShow: 'show'
     // });
 
-    // 2.2. Вызов одного модального окна при нажатии на одну
-    // из кнопок 
+    // 2.2. Выбрать замерщика
     actionModal({
+         /* кнопка, открываюая мод. окно */
         selectorButton: ".popup_engineer_btn",
-        /* кнопка, открываюая мод. окно */
-        selectorModal: '.popup_engineer',
-      /* Модложка (фон) модального окна */  
+        /* Подложка (фон) модального окна */       
+        selectorModal: '.popup_engineer',        
+        /* кнопка, закрывающая модальное окно */        
         selectorClose: '.popup_close',
-        /* кнопка, закрывающая модальное окно */
-        selectorShow: 'show' /* класс (без точки), присваивающий display: block; */
+        /* класс (без точки), присваивающий display: block; */
+        selectorShow: 'show'
     });
 
-    // 2.3. Вызов другого модального окна при нажатии на одну
-    // из кнопок
+    // 2.3. Обратный звонок
     actionModal({
         selectorButton: ".phone_link",
         selectorModal: '.popup',
@@ -105,31 +133,35 @@ const modal = () => {
         selectorShow: 'show'
     });
 
-    // 2.4. Вызов другого модального окна
-    // рассчитать стоимость
+    // 2.4. Рассчитать стоимость
     actionModal({
         selectorButton: ".glazing_price_btn",
         selectorModal: '.popup_calc',
+        /* Подложки (фон) всех модальных окон */
+        selectorModals:'[data-modals]',
         selectorClose: '.popup_calc_close',
-        selectorShow: 'show'
+        selectorShow: 'show',
+        dataModals: false
+        
     });
 
-    // 2.5. Вызов другого модального окна
-    // холодное или теплое остекление]
+    // 2.5. холодное или теплое остекление]
     actionModal({
         selectorButton: ".popup_calc_button",
         selectorModal: '.popup_calc_profile ',
-        selectorClose: '.popup_calc_close',
-        selectorShow: 'show'
-    });
-
-    actionModal({
-        selectorButton: ".popup_calc_button",
-        selectorModal: '.popup_calc_profile ',
+        selectorModals:'[data-modals]',
         selectorClose: '.popup_calc_profile_close',
-        selectorShow: 'show'
+        selectorShow: 'show',
+        dataModals: false
     });
 
+    actionModal({
+        selectorButton: ".popup_calc_profile_button",
+        selectorModal: '.popup_calc_end',
+        selectorModals:'[data-modals]',
+        selectorClose: '.popup_calc_end_close',
+        selectorShow: 'show'
+    });
 };
 
 export default modal;

@@ -27,15 +27,16 @@ function postForms(form) {
             // При положительном варианте событий при повторном
             // обращении к .then можем выполнять действия
             .then(data => {
-                console.log(data);
                 statusMessage.textContent = message.success;
             })
             .catch(() => {
-                console.log('хуй');
                 statusMessage.textContent = message.failure;
             })
             .finally(() => {
                 form.reset();
+                setTimeout(function(){
+                    statusMessage.remove();
+                }, 2000);
             });
     });
 

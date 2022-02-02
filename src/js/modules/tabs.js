@@ -3,7 +3,7 @@ const tabs = () => {
     function tabsDo({
         // Родитель табов (кнопок, активирующих показ
         //     соответствующего контента)
-        headerSliderSelector,
+        ParentSliderSelector,
         // Сам таб (кнопка, ссылка, изображение)
         tabsSelector, 
         // Контент, показываемый при нажатии на соответ.
@@ -15,7 +15,7 @@ const tabs = () => {
         
     }) {    // Родитель табов (кнопок, активирующих показ
             //     соответствующего контента)
-        const header = document.querySelector(headerSliderSelector),
+        const header = document.querySelector(ParentSliderSelector),
             // Сам таб
             tabs = document.querySelectorAll(tabsSelector),
             // Блок контента, который показывается при нажатии
@@ -80,24 +80,25 @@ const tabs = () => {
     // 2. Вызов функции таба
     // ОСТЕКЛЕНИЕ БАЛКОНОВ И ЛОДЖИЙ 
     tabsDo({
-        headerSliderSelector: '.glazing_slider',
+        ParentSliderSelector: '.glazing_slider',
         tabsSelector: '.glazing_block',       
         contentSelector: '.glazing_content',
     });
     // 2. Вызов функции таба 
     // ЗАКАЖИТЕ ОТДЕЛКУ БАЛКОНА СО СКИДКОЙ 60%!
     tabsDo({
-        headerSliderSelector: '.decoration_slider',
+        ParentSliderSelector: '.decoration_slider',
         tabsSelector: '.no_click',
         contentSelector: '.tab__content',
         activeСlass: "after_click",
     });
     // 2. Вызов функции таба 
-    // ЗАКАЖИТЕ ОТДЕЛКУ БАЛКОНА СО СКИДКОЙ 60%!
+    // Калькулятор
     tabsDo({
-        headerSliderSelector: '.balcon_icons',
+        ParentSliderSelector: '.balcon_icons',
         tabsSelector: '.balcon_icons_img',
-        contentSelector: '.big_img img',
+        contentSelector: '.big_img > img',
+        activeСlass: "do_image_more",
     });
 
 
