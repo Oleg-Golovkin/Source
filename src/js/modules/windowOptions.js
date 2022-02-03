@@ -27,7 +27,7 @@ const windowOptions = (objOption) => {
                     objOption[variable.getAttribute('id')] = variable.value;
                 }
                 if (e.target && variable.matches(".balcon_icons_img")) {
-                    objOption.form = i;
+                    objOption.form = i; 
                 }
             });
         });
