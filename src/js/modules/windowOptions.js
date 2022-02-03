@@ -7,12 +7,19 @@ const windowOptions = (objOption) => {
         checkbox = document.querySelectorAll('.checkbox'),
         checkboxCustom = document.querySelectorAll('.checkbox-custom');
 
-    
 
-    
-        function orderSelecktor(typeEvent, variables) {
+
+
+    function orderSelecktor(typeEvent, variables) {
         variables.forEach((variable, i) => {
-            variable.addEventListener(typeEvent, (e) => { 
+            variable.addEventListener(typeEvent, (e) => {
+                if (e.target && variable.matches(".balcon_icons_img")) {
+                    objOption.form = i;
+                }
+                if (e.target && (variable.matches(".form-control") ||
+                        variable.matches("#view_type"))) {
+                    objOption[variable.getAttribute('id')] = variable.value;
+                }            
                 if (e.target && variable.matches(".checkbox")) {
                     variables.forEach((item, j) => {
                         delete objOption[checkboxCustom[j].getAttribute('id')];
@@ -21,13 +28,6 @@ const windowOptions = (objOption) => {
                             objOption[checkboxCustom[i].getAttribute('id')] = variable.checked = true;
                         }
                     });
-                }
-                if (e.target && (variable.matches(".form-control") ||
-                        variable.matches("#view_type"))) {
-                    objOption[variable.getAttribute('id')] = variable.value;
-                }
-                if (e.target && variable.matches(".balcon_icons_img")) {
-                    objOption.form = i; 
                 }
             });
         });
