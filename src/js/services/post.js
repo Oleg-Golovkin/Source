@@ -6,8 +6,6 @@ function postForms(form) {
         failure: 'Что-то пошло не так...'
     };
 
-
-
     // 1. На каждую форму вешаем обработчик события.
     // с событием submit
     form.addEventListener("submit", (e) => {
@@ -34,8 +32,11 @@ function postForms(form) {
             })
             .finally(() => {
                 form.reset();
-                setTimeout(function(){
+                setTimeout(function () {
                     statusMessage.remove();
+                    document.querySelectorAll('[data-modals]').forEach(modal => {
+                        modal.classList.remove('show');
+                    });
                 }, 2000);
             });
     });

@@ -75,7 +75,6 @@ const modal = () => {
             // Если кликаем только на подложку,
             // а не на само модальное окно
             if (e.target === modal && dataModals) {
-                console.log(dataModals);
                 // Все окна закрываются
                 modals.forEach(modal => {
                     modal.classList.remove(selectorShow);

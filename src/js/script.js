@@ -2,15 +2,13 @@ import "./modules/slider";
 import modal from './modules/modal';
 import tabs from './modules/tabs';
 import forms from "./modules/forms";
-import order from "./modules/order";
+import windowOptions from "./modules/windowOptions";
 
 window.addEventListener('DOMContentLoaded', () => {
-    
-    let setOrder = {};
 
+    let setWindowOptions = {};
+    windowOptions(setWindowOptions);
     
-    order(setOrder);
-    console.log(setOrder);
     modal();
     tabs();
     forms();
