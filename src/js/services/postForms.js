@@ -1,22 +1,31 @@
-function postForms(form) {
+
+
+function postForms(form, setWindowOptions) {
 
     const message = {
         loading: 'Загрузка...',
         success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так...'
     };
+    
 
     // 1. На каждую форму вешаем обработчик события.
     // с событием submit
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        // 1.1. Информация, введенная форму, собирается
-        // в специальном объекте new FormData(form)
-        const formData = new FormData(form);
         // НЕ ОБЯЗАТЕЛЬНЫЙ БЛОК
         let statusMessage = document.createElement('div');
         statusMessage.classList.add('status');
-        form.appendChild(statusMessage);
+        form.appendChild(statusMessage);       
+        // 1.1. Информация, введенная форму, собирается
+        // в специальном объекте new FormData(form)
+        const formData = new FormData(form);
+        if(form.getAttribute('data-calck')== "end"){
+            for(let key in setWindowOptions) {
+                formData.append(key, setWindowOptions[key]);
+            }
+        }            
+       
         // 1.2. Отправляем данные на сервер. Выполняется функция
         // post, тело которой описано в пункте п. 1.3       
         post("assets/server.php", formData)
@@ -25,6 +34,7 @@ function postForms(form) {
             // При положительном варианте событий при повторном
             // обращении к .then можем выполнять действия
             .then(data => {
+                console.log(data);
                 statusMessage.textContent = message.success;
             })
             .catch(() => {

@@ -3,7 +3,7 @@ const windowOptions = (objOption) => {
     const width = document.querySelectorAll('#width'),
         height = document.querySelectorAll('#height'),
         tabsSelector = document.querySelectorAll('.balcon_icons_img'),
-        formControl = document.querySelectorAll(".form-control"),
+        typeWindows = document.querySelectorAll("#view_type"),
         checkbox = document.querySelectorAll('.checkbox'),
         checkboxCustom = document.querySelectorAll('.checkbox-custom');
 
@@ -16,10 +16,12 @@ const windowOptions = (objOption) => {
                 if (e.target && variable.matches(".balcon_icons_img")) {
                     objOption.form = i;
                 }
-                if (e.target && (variable.matches(".form-control") ||
+                if (e.target && (variable.matches("#width") ||
+                        variable.matches("#height") ||
                         variable.matches("#view_type"))) {
                     objOption[variable.getAttribute('id')] = variable.value;
-                }            
+                    
+                }
                 if (e.target && variable.matches(".checkbox")) {
                     variables.forEach((item, j) => {
                         delete objOption[checkboxCustom[j].getAttribute('id')];
@@ -41,7 +43,7 @@ const windowOptions = (objOption) => {
     orderSelecktor("input", width);
     orderSelecktor("input", height);
     orderSelecktor("click", tabsSelector);
-    orderSelecktor("click", formControl);
+    orderSelecktor("click", typeWindows);
     orderSelecktor("change", checkbox);
 
 

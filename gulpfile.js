@@ -12,8 +12,6 @@ const imagemin = require('gulp-imagemin');
 const webpack = require('webpack-stream');
 // переменная для его настроек
 const path = require('path');
-// плагин webpack, минимизирующий js
-const CompressionPlugin = require("compression-webpack-plugin");
 
 // const dist = './dist/';
 const dist = 'C:/MAMP/htdocs/';
@@ -32,7 +30,7 @@ gulp.task('server', function () {
     gulp.watch('src/*.html').on('change', browserSync.reload);
     //следи за файлами html если изменились, то перезапускай 
     // обновление страницы
-   
+
 });
 
 //2. Компиляция sass. Просто компилирует. Сам не запускается.
@@ -69,8 +67,8 @@ gulp.task('styles', function () {
 
 gulp.task("copy-assets", () => {
     return gulp.src("./src/assets/**/*.*")
-                .pipe(gulp.dest(dist + "assets"))
-                .on("end", browserSync.reload);
+        .pipe(gulp.dest(dist + "assets"))
+        .on("end", browserSync.reload);
 });
 
 
@@ -157,11 +155,6 @@ gulp.task('webpack', function () {
         .src('./src/js/script.js')
         .pipe(
             webpack({
-                plugins: [
-                    new CompressionPlugin({
-                        include: /\/includes/,
-                    }),
-                ],
                 mode: 'development',
                 entry: '/src/js/script.js',
                 output: {
@@ -190,7 +183,7 @@ gulp.task('webpack', function () {
                                         debug: true,
                                         // настрока corejs
                                         corejs: 3,
-                                        //                 подключаются только те
+                                        // подключаются только те
                                         // полифилы, которые нужны
                                         useBuiltIns: "usage"
                                     }]

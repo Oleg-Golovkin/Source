@@ -1,3 +1,5 @@
+import dataValidationInputs from "./dataValidationInputs";
+
 const modal = () => {
     // Верстка такова, что скрываем и показываем
     // фон модального окна (его подложку)    
@@ -20,6 +22,7 @@ const modal = () => {
         /* класс, присваивающий display: block; */
         selectorShow,
         dataModals = true,
+        dataValidation = false
     }) {
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal),
@@ -44,19 +47,26 @@ const modal = () => {
             // Окно прокручивается
             document.body.style.overflow = "hidden";
         }
+        console.log(document.querySelector("#width"));
         // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (e.target) {
+                e.preventDefault();           
+                if (e.target && dataValidation) {
+                    
+                } else if (e.target && !dataValidation) {
                     // Все окна закрываются
                     modals.forEach(modal => {
                         modal.classList.remove(selectorShow);
                     });
                     showModal();
                 }
+
             });
         });
+
+
+
 
         // Клик на крестики - окно исчезает
         close.forEach(close => {
@@ -102,7 +112,24 @@ const modal = () => {
         setTimeout(function () {
             document.querySelector(selectorModal).classList.add(selectorShow);
         }, time);
-    }
+    }   
+    
+    // const dataValidationInputs = function (inputsSelector, showModal) {
+    //     const inputs = document.querySelectorAll(inputsSelector);
+    //     console.log(inputs);
+    //     inputs.forEach(input => {
+    //         input.addEventListener('input', () => {
+    //             if (input.value == "") {
+    //                 console.log('Хуй');
+    //             } else {
+    //                 showModal();
+    //                 console.log('Хуй');
+    //             }
+    //         });
+    //     });
+    // };
+    
+
     //-------------------2. Вызовы функций---------------------------------------//
     // 
     // 2.1. Вызов открытия конкретного окна через время
@@ -114,11 +141,11 @@ const modal = () => {
 
     // 2.2. Выбрать замерщика
     actionModal({
-         /* кнопка, открываюая мод. окно */
+        /* кнопка, открываюая мод. окно */
         selectorButton: ".popup_engineer_btn",
-        /* Подложка (фон) модального окна */       
-        selectorModal: '.popup_engineer',        
-        /* кнопка, закрывающая модальное окно */        
+        /* Подложка (фон) модального окна */
+        selectorModal: '.popup_engineer',
+        /* кнопка, закрывающая модальное окно */
         selectorClose: '.popup_close',
         /* класс (без точки), присваивающий display: block; */
         selectorShow: 'show'
@@ -137,27 +164,28 @@ const modal = () => {
         selectorButton: ".glazing_price_btn",
         selectorModal: '.popup_calc',
         /* Подложки (фон) всех модальных окон */
-        selectorModals:'[data-modals]',
+        selectorModals: '[data-modals]',
         selectorClose: '.popup_calc_close',
         selectorShow: 'show',
         dataModals: false
-        
+
     });
 
     // 2.5. холодное или теплое остекление]
     actionModal({
         selectorButton: ".popup_calc_button",
         selectorModal: '.popup_calc_profile ',
-        selectorModals:'[data-modals]',
+        selectorModals: '[data-modals]',
         selectorClose: '.popup_calc_profile_close',
         selectorShow: 'show',
-        dataModals: false
+        dataModals: false,
+        dataValidation: true
     });
 
     actionModal({
         selectorButton: ".popup_calc_profile_button",
         selectorModal: '.popup_calc_end',
-        selectorModals:'[data-modals]',
+        selectorModals: '[data-modals]',
         selectorClose: '.popup_calc_end_close',
         selectorShow: 'show'
     });
