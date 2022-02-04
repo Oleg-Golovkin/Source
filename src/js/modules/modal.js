@@ -1,6 +1,7 @@
 import windowOptions from "./windowOptions";
 
 const modal = () => {
+
     // Верстка такова, что скрываем и показываем
     // фон модального окна (его подложку)    
     //-------------------1. Функции---------------------------------------//
@@ -24,11 +25,14 @@ const modal = () => {
         dataModals = true,
         dataValidation = false,
     }) {
+
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal),
             modals = document.querySelectorAll(selectorModals),
             close = document.querySelectorAll(selectorClose);
+        let setWindowOptions = {};
 
+        windowOptions(setWindowOptions);
 
         // Прописать класс показывающий и скрывающий модальное окно
         function closeModal() {
@@ -39,8 +43,8 @@ const modal = () => {
 
         function showModal() {
             // Все окна закрываются
-            modals.forEach(modal => {
-                modal.classList.remove(selectorShow);
+            modals.forEach(item => {
+                item.classList.remove(selectorShow);
             });
             // Открывается только заданное модальное окно
             modal.classList.add(selectorShow);
@@ -48,44 +52,53 @@ const modal = () => {
             document.body.style.overflow = "hidden";
         }
 
-
-
         // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-
                 e.preventDefault();
                 if (e.target && dataValidation) {
-                    if (e.target &&
-                        document.querySelector('#width').value != "" &&
-                        document.querySelector('#height').value != "") {
+                    if (e.target && modal.matches('.popup_calc_profile') &&
+                        setWindowOptions != {} &&
+                        setWindowOptions.width != '' &&
+                        setWindowOptions.height != '' &&
+                        setWindowOptions.form > 0) {
                         showModal();
-
+                        
                     } else {
-                        console.log('Хуй');
-
+                        let statusMessage = document.createElement('div');
+                        statusMessage.classList.add('status');
+                        statusMessage.textContent = "Не все выбрано";
+                        document.querySelector('.popup_calc_content').appendChild(statusMessage);
+                        setTimeout(function () {
+                            statusMessage.remove();
+                        }, 2000);
                     }
+                    if (e.target && modal.matches('.popup_calc_end') &&
+                        setWindowOptions != {} &&
+                        setWindowOptions.view_type != '' &&
+                        (setWindowOptions.cold == true ||
+                            setWindowOptions.warm == true)) {
+                        showModal();
+                    } else {
+                        console.log('Нет');
+                    }
+
                 } else if (e.target && !dataValidation) {
                     // Все окна закрываются
-                    modals.forEach(modal => {
-                        modal.classList.remove(selectorShow);
+                    modals.forEach(item => {
+                        item.classList.remove(selectorShow);
                     });
                     showModal();
                 }
             });
         });
 
-
-
-
-
-
         // Клик на крестики - окно исчезает
         close.forEach(close => {
             close.addEventListener("click", (e) => {
                 // Все окна закрываются
-                modals.forEach(modal => {
-                    modal.classList.remove(selectorShow);
+                modals.forEach(item => {
+                    item.classList.remove(selectorShow);
                 });
                 closeModal();
                 document.body.style.overflow = "";
@@ -98,8 +111,8 @@ const modal = () => {
             // а не на само модальное окно
             if (e.target === modal && dataModals) {
                 // Все окна закрываются
-                modals.forEach(modal => {
-                    modal.classList.remove(selectorShow);
+                modals.forEach(item => {
+                    item.classList.remove(selectorShow);
                 });
                 closeModal();
                 document.body.style.overflow = "";
@@ -199,7 +212,8 @@ const modal = () => {
         selectorModal: '.popup_calc_end',
         selectorModals: '[data-modals]',
         selectorClose: '.popup_calc_end_close',
-        selectorShow: 'show'
+        selectorShow: 'show',
+        dataValidation: true
     });
 
 

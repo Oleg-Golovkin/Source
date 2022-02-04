@@ -6,11 +6,12 @@ const windowOptions = (objOption) => {
         typeWindows = document.querySelectorAll("#view_type"),
         checkbox = document.querySelectorAll('.checkbox'),
         checkboxCustom = document.querySelectorAll('.checkbox-custom');
+    let counter = 0;
 
 
 
 
-    function orderSelecktor(typeEvent, variables) {
+    function orderSelecktor(typeEvent, variables, counter) {
         variables.forEach((variable, i) => {
             variable.addEventListener(typeEvent, (e) => {
                 if (e.target && variable.matches(".balcon_icons_img")) {
@@ -32,19 +33,22 @@ const windowOptions = (objOption) => {
                     });
                 }
                 console.log(objOption);
+               
             });
         });
+
+
 
     }
 
     writeOnlyNumbers('#width');
     writeOnlyNumbers('#height');
 
-    orderSelecktor("input", width);
-    orderSelecktor("input", height);
-    orderSelecktor("click", tabsSelector);
-    orderSelecktor("click", typeWindows);
-    orderSelecktor("change", checkbox);
+    orderSelecktor("input", width, counter);
+    orderSelecktor("input", height, counter);
+    orderSelecktor("click", tabsSelector, counter);
+    orderSelecktor("click", typeWindows, counter);
+    orderSelecktor("change", checkbox, counter);
 
 
 
