@@ -20,7 +20,7 @@ const windowOptions = (objOption) => {
                         variable.matches("#height") ||
                         variable.matches("#view_type"))) {
                     objOption[variable.getAttribute('id')] = variable.value;
-                    
+
                 }
                 if (e.target && variable.matches(".checkbox")) {
                     variables.forEach((item, j) => {
@@ -31,9 +31,9 @@ const windowOptions = (objOption) => {
                         }
                     });
                 }
+                console.log(objOption);
             });
         });
-
 
     }
 

@@ -1,4 +1,4 @@
-import dataValidationInputs from "./dataValidationInputs";
+import windowOptions from "./windowOptions";
 
 const modal = () => {
     // Верстка такова, что скрываем и показываем
@@ -22,7 +22,7 @@ const modal = () => {
         /* класс, присваивающий display: block; */
         selectorShow,
         dataModals = true,
-        dataValidation = false
+        dataValidation = false,
     }) {
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal),
@@ -47,13 +47,24 @@ const modal = () => {
             // Окно прокручивается
             document.body.style.overflow = "hidden";
         }
-        console.log(document.querySelector("#width"));
+
+
+
         // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();           
+
+                e.preventDefault();
                 if (e.target && dataValidation) {
-                    
+                    if (e.target &&
+                        document.querySelector('#width').value != "" &&
+                        document.querySelector('#height').value != "") {
+                        showModal();
+
+                    } else {
+                        console.log('Хуй');
+
+                    }
                 } else if (e.target && !dataValidation) {
                     // Все окна закрываются
                     modals.forEach(modal => {
@@ -61,9 +72,10 @@ const modal = () => {
                     });
                     showModal();
                 }
-
             });
         });
+
+
 
 
 
@@ -112,8 +124,8 @@ const modal = () => {
         setTimeout(function () {
             document.querySelector(selectorModal).classList.add(selectorShow);
         }, time);
-    }   
-    
+    }
+
     // const dataValidationInputs = function (inputsSelector, showModal) {
     //     const inputs = document.querySelectorAll(inputsSelector);
     //     console.log(inputs);
@@ -128,7 +140,7 @@ const modal = () => {
     //         });
     //     });
     // };
-    
+
 
     //-------------------2. Вызовы функций---------------------------------------//
     // 
@@ -179,7 +191,7 @@ const modal = () => {
         selectorClose: '.popup_calc_profile_close',
         selectorShow: 'show',
         dataModals: false,
-        dataValidation: true
+        dataValidation: true,
     });
 
     actionModal({
@@ -189,6 +201,8 @@ const modal = () => {
         selectorClose: '.popup_calc_end_close',
         selectorShow: 'show'
     });
+
+
 };
 
 export default modal;
