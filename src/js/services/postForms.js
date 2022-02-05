@@ -46,6 +46,7 @@ function postForms(form, setWindowOptions) {
                     statusMessage.remove();
                     document.querySelectorAll('[data-modals]').forEach(modal => {
                         modal.classList.remove('show');
+                        document.body.style.overflow = "";
                     });
                 }, 2000);
             });
