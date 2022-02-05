@@ -1,4 +1,6 @@
-import writeOnlyNumbers from "./writeOnlyNumbers";
+import {writeOnlyNumbers} from "./validationInputs";
+
+
 const windowOptions = (objOption) => {
     const width = document.querySelectorAll('#width'),
         height = document.querySelectorAll('#height'),
@@ -6,12 +8,11 @@ const windowOptions = (objOption) => {
         typeWindows = document.querySelectorAll("#view_type"),
         checkbox = document.querySelectorAll('.checkbox'),
         checkboxCustom = document.querySelectorAll('.checkbox-custom');
-    let counter = 0;
 
 
 
 
-    function orderSelecktor(typeEvent, variables, counter) {
+    function orderSelecktor(typeEvent, variables) {
         variables.forEach((variable, i) => {
             variable.addEventListener(typeEvent, (e) => {
                 if (e.target && variable.matches(".balcon_icons_img")) {
@@ -21,6 +22,7 @@ const windowOptions = (objOption) => {
                         variable.matches("#height") ||
                         variable.matches("#view_type"))) {
                     objOption[variable.getAttribute('id')] = variable.value;
+
 
                 }
                 if (e.target && variable.matches(".checkbox")) {
@@ -32,8 +34,8 @@ const windowOptions = (objOption) => {
                         }
                     });
                 }
-                console.log(objOption);
-               
+                
+
             });
         });
 
@@ -44,11 +46,11 @@ const windowOptions = (objOption) => {
     writeOnlyNumbers('#width');
     writeOnlyNumbers('#height');
 
-    orderSelecktor("input", width, counter);
-    orderSelecktor("input", height, counter);
-    orderSelecktor("click", tabsSelector, counter);
-    orderSelecktor("click", typeWindows, counter);
-    orderSelecktor("change", checkbox, counter);
+    orderSelecktor("input", width);
+    orderSelecktor("input", height);
+    orderSelecktor("click", tabsSelector);
+    orderSelecktor("click", typeWindows);
+    orderSelecktor("change", checkbox);
 
 
 

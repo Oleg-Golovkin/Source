@@ -1,5 +1,5 @@
 import postForms from "../services/postForms";
-import writeOnlyNumbers from "./writeOnlyNumbers";
+import {writeOnlyNumbers} from "./validationInputs";
 import windowOptions from "./windowOptions";
 
 

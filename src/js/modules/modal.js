@@ -1,4 +1,5 @@
 import windowOptions from "./windowOptions";
+import {clearInputs} from "./validationInputs";
 
 const modal = () => {
 
@@ -17,6 +18,7 @@ const modal = () => {
         // В обратном случае два открытых окна будут мешаться
         // друг другу.
         selectorModals,
+        selectorModalContent,
         /* кнопка, скрывающая фон модального окна
         вместе с модальным окном */
         selectorClose,
@@ -24,14 +26,17 @@ const modal = () => {
         selectorShow,
         dataModals = true,
         dataValidation = false,
+
     }) {
 
         const button = document.querySelectorAll(selectorButton),
             modal = document.querySelector(selectorModal),
             modals = document.querySelectorAll(selectorModals),
+            modalContent = document.querySelector(selectorModalContent),
             close = document.querySelectorAll(selectorClose);
+        // Подключил функцию по наполнению объекта. Чтобы валидировать
+        // соответствующие формы
         let setWindowOptions = {};
-
         windowOptions(setWindowOptions);
 
         // Прописать класс показывающий и скрывающий модальное окно
@@ -41,53 +46,76 @@ const modal = () => {
             document.body.style.overflow = "";
         }
 
-        function showModal() {
-            // Все окна закрываются
+        function closeModalAll() {
             modals.forEach(item => {
                 item.classList.remove(selectorShow);
             });
+            document.body.style.overflow = "";
+        }
+
+        function showModal() {
+            // Все окна закрываются
+            closeModalAll();
             // Открывается только заданное модальное окно
             modal.classList.add(selectorShow);
             // Окно прокручивается
             document.body.style.overflow = "hidden";
         }
 
+        function validationWindow() {
+            if (modal.matches('.popup_calc_profile') &&
+                setWindowOptions != {} &&
+                setWindowOptions.width != '' &&
+                setWindowOptions.height != '' &&
+                setWindowOptions.form > 0) {
+                return true;
+            }
+
+            if (modal.matches('.popup_calc_end') &&
+                setWindowOptions != {} &&
+                setWindowOptions.view_type != '' &&
+                (setWindowOptions.cold == true ||
+                    setWindowOptions.warm == true)) {
+                return true;
+            }
+        };
+
+        function messageError() {
+            let statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = "Выбраны не все параметры";
+            modalContent.appendChild(statusMessage);
+            setTimeout(function () {
+                statusMessage.remove();
+            }, 2000);
+        }
+
+
+
+
+
         // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (e.target && dataValidation) {
-                    if (e.target && modal.matches('.popup_calc_profile') &&
-                        setWindowOptions != {} &&
-                        setWindowOptions.width != '' &&
-                        setWindowOptions.height != '' &&
-                        setWindowOptions.form > 0) {
+                e.preventDefault();                
+                if (e.target && dataValidation) {                   
+                    if (e.target && validationWindow()) {
+                        closeModalAll();
                         showModal();
-                        
-                    } else {
-                        let statusMessage = document.createElement('div');
-                        statusMessage.classList.add('status');
-                        statusMessage.textContent = "Не все выбрано";
-                        document.querySelector('.popup_calc_content').appendChild(statusMessage);
-                        setTimeout(function () {
-                            statusMessage.remove();
-                        }, 2000);
+                        clearInputs('#width'); 
+                        clearInputs('#height');                       
+                    } else if(modal.matches('.popup_calc_profile')){
+                        messageError();
                     }
-                    if (e.target && modal.matches('.popup_calc_end') &&
-                        setWindowOptions != {} &&
-                        setWindowOptions.view_type != '' &&
-                        (setWindowOptions.cold == true ||
-                            setWindowOptions.warm == true)) {
+                    if (e.target && validationWindow()) {
+                        closeModalAll();
                         showModal();
-                    } else {
-                        console.log('Нет');
+                    } else if (modal.matches('.popup_calc_end')){
+                        messageError();
                     }
-
                 } else if (e.target && !dataValidation) {
                     // Все окна закрываются
-                    modals.forEach(item => {
-                        item.classList.remove(selectorShow);
-                    });
+                    closeModalAll();
                     showModal();
                 }
             });
@@ -97,9 +125,6 @@ const modal = () => {
         close.forEach(close => {
             close.addEventListener("click", (e) => {
                 // Все окна закрываются
-                modals.forEach(item => {
-                    item.classList.remove(selectorShow);
-                });
                 closeModal();
                 document.body.style.overflow = "";
             });
@@ -111,9 +136,6 @@ const modal = () => {
             // а не на само модальное окно
             if (e.target === modal && dataModals) {
                 // Все окна закрываются
-                modals.forEach(item => {
-                    item.classList.remove(selectorShow);
-                });
                 closeModal();
                 document.body.style.overflow = "";
             }
@@ -139,20 +161,7 @@ const modal = () => {
         }, time);
     }
 
-    // const dataValidationInputs = function (inputsSelector, showModal) {
-    //     const inputs = document.querySelectorAll(inputsSelector);
-    //     console.log(inputs);
-    //     inputs.forEach(input => {
-    //         input.addEventListener('input', () => {
-    //             if (input.value == "") {
-    //                 console.log('Хуй');
-    //             } else {
-    //                 showModal();
-    //                 console.log('Хуй');
-    //             }
-    //         });
-    //     });
-    // };
+
 
 
     //-------------------2. Вызовы функций---------------------------------------//
@@ -199,18 +208,21 @@ const modal = () => {
     // 2.5. холодное или теплое остекление]
     actionModal({
         selectorButton: ".popup_calc_button",
-        selectorModal: '.popup_calc_profile ',
+        selectorModal: '.popup_calc_profile',
         selectorModals: '[data-modals]',
+        selectorModalContent: ".popup_calc_content",
         selectorClose: '.popup_calc_profile_close',
         selectorShow: 'show',
         dataModals: false,
         dataValidation: true,
+        
     });
 
     actionModal({
         selectorButton: ".popup_calc_profile_button",
         selectorModal: '.popup_calc_end',
         selectorModals: '[data-modals]',
+        selectorModalContent: ".popup_calc_profile_content",
         selectorClose: '.popup_calc_end_close',
         selectorShow: 'show',
         dataValidation: true

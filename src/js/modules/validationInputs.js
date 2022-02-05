@@ -1,7 +1,6 @@
 
 function writeOnlyNumbers(inputSelector) {
     const numInputs = document.querySelectorAll(inputSelector);
-
     numInputs.forEach(numInput => {
         numInput.addEventListener("input", () => {
             numInput.value = numInput.value.replace(/\D/, "");
@@ -9,5 +8,14 @@ function writeOnlyNumbers(inputSelector) {
     });
 }
 
-export default writeOnlyNumbers;
+function clearInputs(inputSelector) {
+    const numInputs = document.querySelectorAll(inputSelector);
+    numInputs.forEach(numInput => {
+        numInput.value = "";
+    });    
+}
+
+export {writeOnlyNumbers};
+export {clearInputs};
+
 
