@@ -1,5 +1,3 @@
-
-console.log("ок");
 var phoneInputs = document.querySelectorAll('#tel');
 
 var getInputNumbersValue = function (input) {

@@ -100,13 +100,6 @@ const tabs = () => {
         contentSelector: '.big_img > img',
         activeСlass: "do_image_more",
     });
-
-
-
-
-
-
-
 };
 
 

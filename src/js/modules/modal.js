@@ -50,11 +50,12 @@ const modal = () => {
                 item.classList.remove(selectorShow);
             });
             document.body.style.overflow = "";
+            console.log("ok");
         }
 
         function showModal() {
             // Все окна закрываются
-            closeModalAll();
+            closeModalAll();            
             // Открывается только заданное модальное окно
             modal.classList.add(selectorShow);
             // Окно прокручивается
@@ -102,7 +103,6 @@ const modal = () => {
                 e.preventDefault();                
                 if (e.target && dataValidation) {                   
                     if (e.target && validationWindow()) {
-                        closeModalAll();
                         showModal();
                         clearInputs('#width'); 
                         clearInputs('#height');                       
@@ -110,14 +110,12 @@ const modal = () => {
                         showMessageError();
                     }
                     if (e.target && validationWindow()) {
-                        closeModalAll();
                         showModal();
                     } else if (modal.matches('.popup_calc_end')){
                         showMessageError();
                     }
                 } else if (e.target && !dataValidation) {
                     // Все окна закрываются
-                    closeModalAll();
                     showModal();
                 }
             });
