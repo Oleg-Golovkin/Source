@@ -1,5 +1,4 @@
 import windowOptions from "./windowOptions";
-import {clearInputs} from "./validationInputs";
 
 const modal = () => {
 
@@ -78,9 +77,16 @@ const modal = () => {
                     setWindowOptions.warm == true)) {
                 return true;
             }
-        };
+        }
 
-        function messageError() {
+        function clearInputs(inputSelector) {
+            const numInputs = document.querySelectorAll(inputSelector);
+            numInputs.forEach(numInput => {
+                numInput.value = "";
+            });    
+        }
+
+        function showMessageError() {
             let statusMessage = document.createElement('div');
             statusMessage.classList.add('status');
             statusMessage.textContent = "Выбраны не все параметры";
@@ -89,10 +95,6 @@ const modal = () => {
                 statusMessage.remove();
             }, 2000);
         }
-
-
-
-
 
         // Событие все кнопоки
         button.forEach(button => {
@@ -105,13 +107,13 @@ const modal = () => {
                         clearInputs('#width'); 
                         clearInputs('#height');                       
                     } else if(modal.matches('.popup_calc_profile')){
-                        messageError();
+                        showMessageError();
                     }
                     if (e.target && validationWindow()) {
                         closeModalAll();
                         showModal();
                     } else if (modal.matches('.popup_calc_end')){
-                        messageError();
+                        showMessageError();
                     }
                 } else if (e.target && !dataValidation) {
                     // Все окна закрываются

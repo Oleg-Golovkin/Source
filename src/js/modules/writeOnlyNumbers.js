@@ -8,14 +8,7 @@ function writeOnlyNumbers(inputSelector) {
     });
 }
 
-function clearInputs(inputSelector) {
-    const numInputs = document.querySelectorAll(inputSelector);
-    numInputs.forEach(numInput => {
-        numInput.value = "";
-    });    
-}
+export default writeOnlyNumbers;
 
-export {writeOnlyNumbers};
-export {clearInputs};
 
 

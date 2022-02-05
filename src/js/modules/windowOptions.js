@@ -1,4 +1,4 @@
-import {writeOnlyNumbers} from "./validationInputs";
+import writeOnlyNumbers from "./writeOnlyNumbers";
 
 
 const windowOptions = (objOption) => {
