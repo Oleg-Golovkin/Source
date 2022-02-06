@@ -496,23 +496,7 @@ const tabs = () => {
     }
 
     hideTab();
-    showTab(); // Делегирование облочки таба, на изображение btnIMGSelector и 
-    // ссылку linkSelektor, находящееся в нем.
-    // btnIMGSelector селектор, btnIMG - переменная этого селектора
-    // linkSelektor селектор, link - переменная этого селектора
-
-    header.addEventListener('click', e => {
-      const target = e.target;
-
-      if (target && (target.matches(tabsSelector) || target.parentNode.matches(tabsSelector))) {
-        tabs.forEach((tab, i) => {
-          if (target == tab || target.parentNode == tab) {
-            hideTab();
-            showTab(i);
-          }
-        });
-      }
-    }); // // header - облочка кнопок (изображение и ссылки)
+    showTab(); // // header - облочка кнопок (изображение и ссылки)
     // e.target.matches(tabsSelector) делегирование дочерний элемент - изображение
     // e.target.parentNode.matches(tabsSelector) делегирование на
     //  дочерний дочернего элемента - ссылку
