@@ -92,7 +92,6 @@ const modal = () => {
         item.classList.remove(selectorShow);
       });
       document.body.style.overflow = "";
-      console.log("ok");
     }
 
     function showModal() {
