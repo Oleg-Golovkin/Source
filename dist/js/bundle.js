@@ -778,11 +778,11 @@ function postForms(form, setWindowOptions) {
     }).finally(() => {
       form.reset();
       setTimeout(function () {
-        statusMessage.remove();
-        document.querySelectorAll('[data-modals]').forEach(modal => {
-          modal.classList.remove('show');
-          document.body.style.overflow = "";
-        });
+        // statusMessage.remove();
+        document.body.style.overflow = "";
+        console.log("JR"); // document.querySelectorAll('[data-modals]').forEach(modal => {
+        //     modal.classList.remove('show');
+        // });
       }, 2000);
     });
   }); // 1.3. Настраиваем механизм отправки данных на сервер

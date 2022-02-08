@@ -92,7 +92,7 @@ const modal = () => {
             statusMessage.textContent = "Выбраны не все параметры";
             modalContent.appendChild(statusMessage);
             setTimeout(function () {
-                statusMessage.remove();
+                statusMessage.remove();               
             }, 2000);
         }
 

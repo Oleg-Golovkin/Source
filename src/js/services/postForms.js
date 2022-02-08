@@ -1,5 +1,3 @@
-
-
 function postForms(form, setWindowOptions) {
 
     const message = {
@@ -7,7 +5,7 @@ function postForms(form, setWindowOptions) {
         success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так...'
     };
-    
+
 
     // 1. На каждую форму вешаем обработчик события.
     // с событием submit
@@ -16,16 +14,16 @@ function postForms(form, setWindowOptions) {
         // НЕ ОБЯЗАТЕЛЬНЫЙ БЛОК
         let statusMessage = document.createElement('div');
         statusMessage.classList.add('status');
-        form.appendChild(statusMessage);       
+        form.appendChild(statusMessage);
         // 1.1. Информация, введенная форму, собирается
         // в специальном объекте new FormData(form)
         const formData = new FormData(form);
-        if(form.getAttribute('data-calck')== "end"){
-            for(let key in setWindowOptions) {
+        if (form.getAttribute('data-calck') == "end") {
+            for (let key in setWindowOptions) {
                 formData.append(key, setWindowOptions[key]);
             }
-        }            
-       
+        }
+
         // 1.2. Отправляем данные на сервер. Выполняется функция
         // post, тело которой описано в пункте п. 1.3       
         post("assets/server.php", formData)
@@ -44,10 +42,11 @@ function postForms(form, setWindowOptions) {
                 form.reset();
                 setTimeout(function () {
                     statusMessage.remove();
+                    console.log("JR");
                     document.querySelectorAll('[data-modals]').forEach(modal => {
                         modal.classList.remove('show');
-                        document.body.style.overflow = "";
                     });
+                    document.body.style.overflow = "";                   
                 }, 2000);
             });
     });
