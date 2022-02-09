@@ -25,8 +25,8 @@ const modal = () => {
         selectorShow,
         dataModals = true,
         dataValidation = false,
-        // Размер смещения старницы из-за бегунка прокрутки
-        scroll = showWidthScroll()
+        
+       
     }) {
 
         const button = document.querySelectorAll(selectorButton),
@@ -44,6 +44,7 @@ const modal = () => {
             modal.classList.remove(selectorShow);
             // Окно не прокручивается
             document.body.style.overflow = "";
+            document.body.style.marginRight = `0px`;
         }
         // Показывает и скрывает все модальные окна
         // Для тех случаев, когда вызов модальных окон из 
@@ -53,6 +54,7 @@ const modal = () => {
                 item.classList.remove(selectorShow);
             });
             document.body.style.overflow = "";
+            document.body.style.marginRight = `0px`;
         }
 
         function showModal() {
@@ -62,6 +64,7 @@ const modal = () => {
             modal.classList.add(selectorShow);
             // Окно прокручивается
             document.body.style.overflow = "hidden";
+            document.body.style.marginRight = `${showWidthScroll()}px`;
         }
 
         // Валидация на заполненность форм отдельных модальных
@@ -84,9 +87,11 @@ const modal = () => {
             }
         }
 
+        
+        // Размер смещения старницы из-за бегунка прокрутки
         function showWidthScroll() {
             // 1. Создаем блок
-            let div = document.createElement("div")
+            let div = document.createElement("div");
             document.body.append(div);
             // 2. Присваиваем стили, чтобы:
             // был
@@ -103,7 +108,7 @@ const modal = () => {
             // 5. В итоге в функции будет значение ширины бегунка прокрутки
             // странцы. Это значение подставляем в виде марджена, когда
             // появляется блок, чтобы странца не прыгала
-            return widthScroll
+            return widthScroll;
         }
 
         function clearInputs(inputSelector) {

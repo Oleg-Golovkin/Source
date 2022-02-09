@@ -110,148 +110,148 @@ const modal = () => {
       /* класс, присваивающий display: block; */
       selectorShow,
       dataModals = true,
-      dataValidation = false,
-      // Размер смещения старницы из-за бегунка прокрутки
-      scroll = showWidthScroll()
+      dataValidation = false
     } = _ref;
-    return function () {
-      const button = document.querySelectorAll(selectorButton),
-            modal = document.querySelector(selectorModal),
-            modals = document.querySelectorAll(selectorModals),
-            modalContent = document.querySelector(selectorModalContent),
-            close = document.querySelectorAll(selectorClose); // Подключил функцию по наполнению объекта. Чтобы валидировать
-      // соответствующие формы
+    const button = document.querySelectorAll(selectorButton),
+          modal = document.querySelector(selectorModal),
+          modals = document.querySelectorAll(selectorModals),
+          modalContent = document.querySelector(selectorModalContent),
+          close = document.querySelectorAll(selectorClose); // Подключил функцию по наполнению объекта. Чтобы валидировать
+    // соответствующие формы
 
-      let setWindowOptions = {};
-      (0,_windowOptions__WEBPACK_IMPORTED_MODULE_0__["default"])(setWindowOptions); // Показывает и скрывает конкретное модальное окно
+    let setWindowOptions = {};
+    (0,_windowOptions__WEBPACK_IMPORTED_MODULE_0__["default"])(setWindowOptions); // Показывает и скрывает конкретное модальное окно
 
-      function closeModal() {
-        modal.classList.remove(selectorShow); // Окно не прокручивается
+    function closeModal() {
+      modal.classList.remove(selectorShow); // Окно не прокручивается
 
-        document.body.style.overflow = "";
-      } // Показывает и скрывает все модальные окна
-      // Для тех случаев, когда вызов модальных окон из 
-      // другого модального окна
+      document.body.style.overflow = "";
+      document.body.style.marginRight = `0px`;
+    } // Показывает и скрывает все модальные окна
+    // Для тех случаев, когда вызов модальных окон из 
+    // другого модального окна
 
 
-      function closeModalAll() {
-        modals.forEach(item => {
-          item.classList.remove(selectorShow);
-        });
-        document.body.style.overflow = "";
+    function closeModalAll() {
+      modals.forEach(item => {
+        item.classList.remove(selectorShow);
+      });
+      document.body.style.overflow = "";
+      document.body.style.marginRight = `0px`;
+    }
+
+    function showModal() {
+      // Все окна закрываются
+      closeModalAll(); // Открывается только заданное модальное окно
+
+      modal.classList.add(selectorShow); // Окно прокручивается
+
+      document.body.style.overflow = "hidden";
+      document.body.style.marginRight = `${showWidthScroll()}px`;
+    } // Валидация на заполненность форм отдельных модальных
+    // окон
+
+
+    function validationWindow() {
+      if (modal.matches('.popup_calc_profile') && setWindowOptions != {} && setWindowOptions.width != '' && setWindowOptions.height != '' && setWindowOptions.form > 0) {
+        return true;
       }
 
-      function showModal() {
-        // Все окна закрываются
-        closeModalAll(); // Открывается только заданное модальное окно
-
-        modal.classList.add(selectorShow); // Окно прокручивается
-
-        document.body.style.overflow = "hidden";
-      } // Валидация на заполненность форм отдельных модальных
-      // окон
-
-
-      function validationWindow() {
-        if (modal.matches('.popup_calc_profile') && setWindowOptions != {} && setWindowOptions.width != '' && setWindowOptions.height != '' && setWindowOptions.form > 0) {
-          return true;
-        }
-
-        if (modal.matches('.popup_calc_end') && setWindowOptions != {} && setWindowOptions.view_type != '' && (setWindowOptions.cold == true || setWindowOptions.warm == true)) {
-          return true;
-        }
+      if (modal.matches('.popup_calc_end') && setWindowOptions != {} && setWindowOptions.view_type != '' && (setWindowOptions.cold == true || setWindowOptions.warm == true)) {
+        return true;
       }
-
-      function showWidthScroll() {
-        // 1. Создаем блок
-        let div = document.createElement("div");
-        document.body.append(div); // 2. Присваиваем стили, чтобы:
-        // был
-
-        div.style.width = "50px";
-        div.style.height = "50px"; // виден скролл
-
-        div.style.overflowY = "scroll"; // скрываем из верстки
-
-        div.style.visibility = "hidden"; // 3. Получаем ширину скрола
-
-        let widthScroll = div.offsetWidth - div.clientWidth; // 4. удаляем элемент со страницы
-
-        div.remove(); // 5. В итоге в функции будет значение ширины бегунка прокрутки
-        // странцы. Это значение подставляем в виде марджена, когда
-        // появляется блок, чтобы странца не прыгала
-
-        return widthScroll;
-      }
-
-      function clearInputs(inputSelector) {
-        const numInputs = document.querySelectorAll(inputSelector);
-        numInputs.forEach(numInput => {
-          numInput.value = "";
-        });
-      }
-
-      function showMessageError() {
-        let statusMessage = document.createElement('div');
-        statusMessage.classList.add('status');
-        statusMessage.textContent = "Выбраны не все параметры";
-        modalContent.appendChild(statusMessage);
-        setTimeout(function () {
-          statusMessage.remove();
-        }, 2000);
-      } // Событие все кнопоки
+    } // Размер смещения старницы из-за бегунка прокрутки
 
 
-      button.forEach(button => {
-        button.addEventListener("click", e => {
-          e.preventDefault();
+    function showWidthScroll() {
+      // 1. Создаем блок
+      let div = document.createElement("div");
+      document.body.append(div); // 2. Присваиваем стили, чтобы:
+      // был
 
-          if (e.target && dataValidation) {
-            if (e.target && validationWindow()) {
-              showModal();
-              clearInputs('#width');
-              clearInputs('#height');
-            } else if (modal.matches('.popup_calc_profile')) {
-              showMessageError();
-            }
+      div.style.width = "50px";
+      div.style.height = "50px"; // виден скролл
 
-            if (e.target && validationWindow()) {
-              showModal();
-            } else if (modal.matches('.popup_calc_end')) {
-              showMessageError();
-            }
-          } else if (e.target && !dataValidation) {
-            // Все окна закрываются
+      div.style.overflowY = "scroll"; // скрываем из верстки
+
+      div.style.visibility = "hidden"; // 3. Получаем ширину скрола
+
+      let widthScroll = div.offsetWidth - div.clientWidth; // 4. удаляем элемент со страницы
+
+      div.remove(); // 5. В итоге в функции будет значение ширины бегунка прокрутки
+      // странцы. Это значение подставляем в виде марджена, когда
+      // появляется блок, чтобы странца не прыгала
+
+      return widthScroll;
+    }
+
+    function clearInputs(inputSelector) {
+      const numInputs = document.querySelectorAll(inputSelector);
+      numInputs.forEach(numInput => {
+        numInput.value = "";
+      });
+    }
+
+    function showMessageError() {
+      let statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = "Выбраны не все параметры";
+      modalContent.appendChild(statusMessage);
+      setTimeout(function () {
+        statusMessage.remove();
+      }, 2000);
+    } // Событие все кнопоки
+
+
+    button.forEach(button => {
+      button.addEventListener("click", e => {
+        e.preventDefault();
+
+        if (e.target && dataValidation) {
+          if (e.target && validationWindow()) {
             showModal();
+            clearInputs('#width');
+            clearInputs('#height');
+          } else if (modal.matches('.popup_calc_profile')) {
+            showMessageError();
           }
-        });
-      }); // Клик на крестики - окно исчезает
 
-      close.forEach(close => {
-        close.addEventListener("click", e => {
+          if (e.target && validationWindow()) {
+            showModal();
+          } else if (modal.matches('.popup_calc_end')) {
+            showMessageError();
+          }
+        } else if (e.target && !dataValidation) {
           // Все окна закрываются
-          closeModal();
-          document.body.style.overflow = "";
-        });
-      }); // Клик на подложку - окно исчезает
-
-      modal.addEventListener("click", e => {
-        // Если кликаем только на подложку,
-        // а не на само модальное окно
-        if (e.target === modal && dataModals) {
-          // Все окна закрываются
-          closeModal();
-          document.body.style.overflow = "";
-        }
-      }); // Закрытие окна на клавишу 
-
-      document.addEventListener('keydown', e => {
-        if (e.code === "Escape" && modal.classList.contains(selectorShow)) {
-          closeModal();
-          document.body.style.overflow = "";
+          showModal();
         }
       });
-    }();
+    }); // Клик на крестики - окно исчезает
+
+    close.forEach(close => {
+      close.addEventListener("click", e => {
+        // Все окна закрываются
+        closeModal();
+        document.body.style.overflow = "";
+      });
+    }); // Клик на подложку - окно исчезает
+
+    modal.addEventListener("click", e => {
+      // Если кликаем только на подложку,
+      // а не на само модальное окно
+      if (e.target === modal && dataModals) {
+        // Все окна закрываются
+        closeModal();
+        document.body.style.overflow = "";
+      }
+    }); // Закрытие окна на клавишу 
+
+    document.addEventListener('keydown', e => {
+      if (e.code === "Escape" && modal.classList.contains(selectorShow)) {
+        closeModal();
+        document.body.style.overflow = "";
+      }
+    });
   } //1.2.Через время открываются не все, а конкретное окно
 
 
@@ -723,23 +723,6 @@ function setKlock(endtime, selector) {
 setKlock(deadline, '#timer'); // Вызываем функцию по 
 // вычислению разницы между желаемой датой и действующей,
 // с присвоением полученного значения кажды раз через секунду */
-
-/***/ }),
-
-/***/ "./src/js/modules/widthScroll.js":
-/*!***************************************!*\
-  !*** ./src/js/modules/widthScroll.js ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const widthScroll = () => {
-  showWidthScroll();
-  console.log(showWidthScroll());
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (widthScroll);
 
 /***/ }),
 
@@ -14895,8 +14878,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
-/* harmony import */ var _modules_widthScroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/widthScroll */ "./src/js/modules/widthScroll.js");
-
 
 
 
@@ -14909,7 +14890,6 @@ window.addEventListener('DOMContentLoaded', () => {
   (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_4__["default"])();
   (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])();
   (0,_modules_images__WEBPACK_IMPORTED_MODULE_6__["default"])();
-  (0,_modules_widthScroll__WEBPACK_IMPORTED_MODULE_7__["default"])();
 });
 }();
 /******/ })()
