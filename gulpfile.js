@@ -13,8 +13,8 @@ const webpack = require('webpack-stream');
 // переменная для его настроек
 const path = require('path');
 
-// const dist = './dist/';
-const dist = 'C:/MAMP/htdocs/';
+const dist = './dist/';
+// const dist = 'C:/MAMP/htdocs/';
 // const dist = '/Applications/MAMP/htdocs/';
 
 //1. Настраиваем обновление страницы

@@ -13,6 +13,21 @@ body {
   color: #000000;
 }
 
+@keyframes showOpacity {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.glazing_content {
+  animation-name: showOpacity;
+  animation-duration: 1.5s;
+}
+
+
 .status {
   display: block;
   color: red;
@@ -1103,6 +1118,11 @@ textarea:focus {
   margin-top: 1rem;
   padding: 1rem 5rem;
 }
+
+
+
+
+
 
 /*Media*/
 @media (max-width: 1400px) {

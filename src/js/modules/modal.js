@@ -25,7 +25,8 @@ const modal = () => {
         selectorShow,
         dataModals = true,
         dataValidation = false,
-
+        // Размер смещения старницы из-за бегунка прокрутки
+        scroll = showWidthScroll()
     }) {
 
         const button = document.querySelectorAll(selectorButton),
@@ -38,13 +39,15 @@ const modal = () => {
         let setWindowOptions = {};
         windowOptions(setWindowOptions);
 
-        // Прописать класс показывающий и скрывающий модальное окно
+        // Показывает и скрывает конкретное модальное окно
         function closeModal() {
             modal.classList.remove(selectorShow);
             // Окно не прокручивается
             document.body.style.overflow = "";
         }
-
+        // Показывает и скрывает все модальные окна
+        // Для тех случаев, когда вызов модальных окон из 
+        // другого модального окна
         function closeModalAll() {
             modals.forEach(item => {
                 item.classList.remove(selectorShow);
@@ -54,13 +57,15 @@ const modal = () => {
 
         function showModal() {
             // Все окна закрываются
-            closeModalAll();            
+            closeModalAll();
             // Открывается только заданное модальное окно
             modal.classList.add(selectorShow);
             // Окно прокручивается
             document.body.style.overflow = "hidden";
         }
 
+        // Валидация на заполненность форм отдельных модальных
+        // окон
         function validationWindow() {
             if (modal.matches('.popup_calc_profile') &&
                 setWindowOptions != {} &&
@@ -79,11 +84,33 @@ const modal = () => {
             }
         }
 
+        function showWidthScroll() {
+            // 1. Создаем блок
+            let div = document.createElement("div")
+            document.body.append(div);
+            // 2. Присваиваем стили, чтобы:
+            // был
+            div.style.width = "50px";
+            div.style.height = "50px";
+            // виден скролл
+            div.style.overflowY = "scroll";
+            // скрываем из верстки
+            div.style.visibility = "hidden";
+            // 3. Получаем ширину скрола
+            let widthScroll = div.offsetWidth - div.clientWidth;
+            // 4. удаляем элемент со страницы
+            div.remove();
+            // 5. В итоге в функции будет значение ширины бегунка прокрутки
+            // странцы. Это значение подставляем в виде марджена, когда
+            // появляется блок, чтобы странца не прыгала
+            return widthScroll
+        }
+
         function clearInputs(inputSelector) {
             const numInputs = document.querySelectorAll(inputSelector);
             numInputs.forEach(numInput => {
                 numInput.value = "";
-            });    
+            });
         }
 
         function showMessageError() {
@@ -92,25 +119,25 @@ const modal = () => {
             statusMessage.textContent = "Выбраны не все параметры";
             modalContent.appendChild(statusMessage);
             setTimeout(function () {
-                statusMessage.remove();               
+                statusMessage.remove();
             }, 2000);
         }
 
         // Событие все кнопоки
         button.forEach(button => {
             button.addEventListener("click", (e) => {
-                e.preventDefault();                
-                if (e.target && dataValidation) {                   
+                e.preventDefault();
+                if (e.target && dataValidation) {
                     if (e.target && validationWindow()) {
                         showModal();
-                        clearInputs('#width'); 
-                        clearInputs('#height');                       
-                    } else if(modal.matches('.popup_calc_profile')){
+                        clearInputs('#width');
+                        clearInputs('#height');
+                    } else if (modal.matches('.popup_calc_profile')) {
                         showMessageError();
                     }
                     if (e.target && validationWindow()) {
                         showModal();
-                    } else if (modal.matches('.popup_calc_end')){
+                    } else if (modal.matches('.popup_calc_end')) {
                         showMessageError();
                     }
                 } else if (e.target && !dataValidation) {
@@ -214,7 +241,7 @@ const modal = () => {
         selectorShow: 'show',
         dataModals: false,
         dataValidation: true,
-        
+
     });
 
     actionModal({

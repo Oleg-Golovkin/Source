@@ -30,6 +30,47 @@ const forms = () => {
 
 /***/ }),
 
+/***/ "./src/js/modules/images.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/images.js ***!
+  \**********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const images = () => {
+  const parentImages = document.querySelector(".works"),
+        div = document.createElement("div"),
+        img = document.createElement("img");
+  div.classList.add("popup");
+  div.style.justifyContent = "center";
+  div.style.alignItems = "center";
+  div.append(img);
+  img.style.width = "600px";
+  img.style.height = "600px";
+  parentImages.append(div);
+  parentImages.addEventListener("click", e => {
+    e.preventDefault();
+    const target = e.target;
+
+    if (target && target.matches("img.preview")) {
+      div.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      const srcValue = target.parentNode.getAttribute("href");
+      img.setAttribute("src", srcValue);
+    }
+
+    if (target && target.matches(".popup")) {
+      div.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (images);
+
+/***/ }),
+
 /***/ "./src/js/modules/modal.js":
 /*!*********************************!*\
   !*** ./src/js/modules/modal.js ***!
@@ -69,117 +110,148 @@ const modal = () => {
       /* класс, присваивающий display: block; */
       selectorShow,
       dataModals = true,
-      dataValidation = false
+      dataValidation = false,
+      // Размер смещения старницы из-за бегунка прокрутки
+      scroll = showWidthScroll()
     } = _ref;
-    const button = document.querySelectorAll(selectorButton),
-          modal = document.querySelector(selectorModal),
-          modals = document.querySelectorAll(selectorModals),
-          modalContent = document.querySelector(selectorModalContent),
-          close = document.querySelectorAll(selectorClose); // Подключил функцию по наполнению объекта. Чтобы валидировать
-    // соответствующие формы
+    return function () {
+      const button = document.querySelectorAll(selectorButton),
+            modal = document.querySelector(selectorModal),
+            modals = document.querySelectorAll(selectorModals),
+            modalContent = document.querySelector(selectorModalContent),
+            close = document.querySelectorAll(selectorClose); // Подключил функцию по наполнению объекта. Чтобы валидировать
+      // соответствующие формы
 
-    let setWindowOptions = {};
-    (0,_windowOptions__WEBPACK_IMPORTED_MODULE_0__["default"])(setWindowOptions); // Прописать класс показывающий и скрывающий модальное окно
+      let setWindowOptions = {};
+      (0,_windowOptions__WEBPACK_IMPORTED_MODULE_0__["default"])(setWindowOptions); // Показывает и скрывает конкретное модальное окно
 
-    function closeModal() {
-      modal.classList.remove(selectorShow); // Окно не прокручивается
+      function closeModal() {
+        modal.classList.remove(selectorShow); // Окно не прокручивается
 
-      document.body.style.overflow = "";
-    }
+        document.body.style.overflow = "";
+      } // Показывает и скрывает все модальные окна
+      // Для тех случаев, когда вызов модальных окон из 
+      // другого модального окна
 
-    function closeModalAll() {
-      modals.forEach(item => {
-        item.classList.remove(selectorShow);
-      });
-      document.body.style.overflow = "";
-    }
 
-    function showModal() {
-      // Все окна закрываются
-      closeModalAll(); // Открывается только заданное модальное окно
-
-      modal.classList.add(selectorShow); // Окно прокручивается
-
-      document.body.style.overflow = "hidden";
-    }
-
-    function validationWindow() {
-      if (modal.matches('.popup_calc_profile') && setWindowOptions != {} && setWindowOptions.width != '' && setWindowOptions.height != '' && setWindowOptions.form > 0) {
-        return true;
+      function closeModalAll() {
+        modals.forEach(item => {
+          item.classList.remove(selectorShow);
+        });
+        document.body.style.overflow = "";
       }
 
-      if (modal.matches('.popup_calc_end') && setWindowOptions != {} && setWindowOptions.view_type != '' && (setWindowOptions.cold == true || setWindowOptions.warm == true)) {
-        return true;
+      function showModal() {
+        // Все окна закрываются
+        closeModalAll(); // Открывается только заданное модальное окно
+
+        modal.classList.add(selectorShow); // Окно прокручивается
+
+        document.body.style.overflow = "hidden";
+      } // Валидация на заполненность форм отдельных модальных
+      // окон
+
+
+      function validationWindow() {
+        if (modal.matches('.popup_calc_profile') && setWindowOptions != {} && setWindowOptions.width != '' && setWindowOptions.height != '' && setWindowOptions.form > 0) {
+          return true;
+        }
+
+        if (modal.matches('.popup_calc_end') && setWindowOptions != {} && setWindowOptions.view_type != '' && (setWindowOptions.cold == true || setWindowOptions.warm == true)) {
+          return true;
+        }
       }
-    }
 
-    function clearInputs(inputSelector) {
-      const numInputs = document.querySelectorAll(inputSelector);
-      numInputs.forEach(numInput => {
-        numInput.value = "";
-      });
-    }
+      function showWidthScroll() {
+        // 1. Создаем блок
+        let div = document.createElement("div");
+        document.body.append(div); // 2. Присваиваем стили, чтобы:
+        // был
 
-    function showMessageError() {
-      let statusMessage = document.createElement('div');
-      statusMessage.classList.add('status');
-      statusMessage.textContent = "Выбраны не все параметры";
-      modalContent.appendChild(statusMessage);
-      setTimeout(function () {
-        statusMessage.remove();
-      }, 2000);
-    } // Событие все кнопоки
+        div.style.width = "50px";
+        div.style.height = "50px"; // виден скролл
+
+        div.style.overflowY = "scroll"; // скрываем из верстки
+
+        div.style.visibility = "hidden"; // 3. Получаем ширину скрола
+
+        let widthScroll = div.offsetWidth - div.clientWidth; // 4. удаляем элемент со страницы
+
+        div.remove(); // 5. В итоге в функции будет значение ширины бегунка прокрутки
+        // странцы. Это значение подставляем в виде марджена, когда
+        // появляется блок, чтобы странца не прыгала
+
+        return widthScroll;
+      }
+
+      function clearInputs(inputSelector) {
+        const numInputs = document.querySelectorAll(inputSelector);
+        numInputs.forEach(numInput => {
+          numInput.value = "";
+        });
+      }
+
+      function showMessageError() {
+        let statusMessage = document.createElement('div');
+        statusMessage.classList.add('status');
+        statusMessage.textContent = "Выбраны не все параметры";
+        modalContent.appendChild(statusMessage);
+        setTimeout(function () {
+          statusMessage.remove();
+        }, 2000);
+      } // Событие все кнопоки
 
 
-    button.forEach(button => {
-      button.addEventListener("click", e => {
-        e.preventDefault();
+      button.forEach(button => {
+        button.addEventListener("click", e => {
+          e.preventDefault();
 
-        if (e.target && dataValidation) {
-          if (e.target && validationWindow()) {
+          if (e.target && dataValidation) {
+            if (e.target && validationWindow()) {
+              showModal();
+              clearInputs('#width');
+              clearInputs('#height');
+            } else if (modal.matches('.popup_calc_profile')) {
+              showMessageError();
+            }
+
+            if (e.target && validationWindow()) {
+              showModal();
+            } else if (modal.matches('.popup_calc_end')) {
+              showMessageError();
+            }
+          } else if (e.target && !dataValidation) {
+            // Все окна закрываются
             showModal();
-            clearInputs('#width');
-            clearInputs('#height');
-          } else if (modal.matches('.popup_calc_profile')) {
-            showMessageError();
           }
+        });
+      }); // Клик на крестики - окно исчезает
 
-          if (e.target && validationWindow()) {
-            showModal();
-          } else if (modal.matches('.popup_calc_end')) {
-            showMessageError();
-          }
-        } else if (e.target && !dataValidation) {
+      close.forEach(close => {
+        close.addEventListener("click", e => {
           // Все окна закрываются
-          showModal();
+          closeModal();
+          document.body.style.overflow = "";
+        });
+      }); // Клик на подложку - окно исчезает
+
+      modal.addEventListener("click", e => {
+        // Если кликаем только на подложку,
+        // а не на само модальное окно
+        if (e.target === modal && dataModals) {
+          // Все окна закрываются
+          closeModal();
+          document.body.style.overflow = "";
+        }
+      }); // Закрытие окна на клавишу 
+
+      document.addEventListener('keydown', e => {
+        if (e.code === "Escape" && modal.classList.contains(selectorShow)) {
+          closeModal();
+          document.body.style.overflow = "";
         }
       });
-    }); // Клик на крестики - окно исчезает
-
-    close.forEach(close => {
-      close.addEventListener("click", e => {
-        // Все окна закрываются
-        closeModal();
-        document.body.style.overflow = "";
-      });
-    }); // Клик на подложку - окно исчезает
-
-    modal.addEventListener("click", e => {
-      // Если кликаем только на подложку,
-      // а не на само модальное окно
-      if (e.target === modal && dataModals) {
-        // Все окна закрываются
-        closeModal();
-        document.body.style.overflow = "";
-      }
-    }); // Закрытие окна на клавишу 
-
-    document.addEventListener('keydown', e => {
-      if (e.code === "Escape" && modal.classList.contains(selectorShow)) {
-        closeModal();
-        document.body.style.overflow = "";
-      }
-    });
+    }();
   } //1.2.Через время открываются не все, а конкретное окно
 
 
@@ -654,6 +726,23 @@ setKlock(deadline, '#timer'); // Вызываем функцию по
 
 /***/ }),
 
+/***/ "./src/js/modules/widthScroll.js":
+/*!***************************************!*\
+  !*** ./src/js/modules/widthScroll.js ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const widthScroll = () => {
+  showWidthScroll();
+  console.log(showWidthScroll());
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (widthScroll);
+
+/***/ }),
+
 /***/ "./src/js/modules/windowOptions.js":
 /*!*****************************************!*\
   !*** ./src/js/modules/windowOptions.js ***!
@@ -778,11 +867,12 @@ function postForms(form, setWindowOptions) {
     }).finally(() => {
       form.reset();
       setTimeout(function () {
-        // statusMessage.remove();
+        statusMessage.remove();
+        console.log("JR");
+        document.querySelectorAll('[data-modals]').forEach(modal => {
+          modal.classList.remove('show');
+        });
         document.body.style.overflow = "";
-        console.log("JR"); // document.querySelectorAll('[data-modals]').forEach(modal => {
-        //     modal.classList.remove('show');
-        // });
       }, 2000);
     });
   }); // 1.3. Настраиваем механизм отправки данных на сервер
@@ -14804,6 +14894,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+/* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
+/* harmony import */ var _modules_widthScroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/widthScroll */ "./src/js/modules/widthScroll.js");
+
+
 
 
 
@@ -14814,6 +14908,8 @@ window.addEventListener('DOMContentLoaded', () => {
   (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__["default"])();
   (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_4__["default"])();
   (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  (0,_modules_images__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  (0,_modules_widthScroll__WEBPACK_IMPORTED_MODULE_7__["default"])();
 });
 }();
 /******/ })()
